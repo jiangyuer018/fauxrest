@@ -20,7 +20,7 @@ Options:
   -c, --config <CONFIG_FILE>     Path to the configuration file
   -l, --layout <LAYOUT>          Layout to use for the output [possible values: index, file, extension]
   -d, --dest <DEST_DIR>          Path to the output directory [default: dist]
-  -s, --serializer <SERIALIZER>  Serializer to use for the output. [available: json, typescript, sql] [default: json]
+  -s, --serializer <SERIALIZER>  Serializer to use for the output. [available: json, typescript, sqlite] [aliases: javascript, ts, js, sql] [default: json]
       --bundle                   If set, write the whole API as one api.[ext] file
       --minify                   If true, minify the output
       --no-minify                If set, disable minification (overrides config)
