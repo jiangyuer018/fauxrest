@@ -53,12 +53,13 @@ pub struct Args {
     )]
     dest: Option<PathBuf>,
 
-    /// Serializer to use for the output (`json`, `typescript`, or `sql`).
+    /// Serializer to use for the output (`json`, `typescript`, or `sqlite`).
+    /// The aliases `javascript`, `ts`, `js`, and `sql` are also accepted.
     /// Defaults to `json` when neither this flag nor a config file sets one.
     #[clap(
         short,
         long,
-        help = "Serializer to use for the output. [available: json, typescript, sql] [default: json]",
+        help = "Serializer to use for the output. [available: json, typescript, sqlite] [aliases: javascript, ts, js, sql] [default: json]",
         value_name = "SERIALIZER"
     )]
     serializer: Option<String>,
@@ -280,6 +281,7 @@ fn main() -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use clap::CommandFactory;
     use fauxrest::Layout;
     use std::io::Write;
 
@@ -294,6 +296,13 @@ mod tests {
     }
 
     const CONFIG_BODY: &str = r#"{"$config": [{"serializer": "typescript", "layout": "file", "dest": "from-config", "minify": true}]}"#;
+
+    #[test]
+    fn serializer_help_lists_canonical_names_and_aliases() {
+        let help = Args::command().render_help().to_string();
+        assert!(help.contains("[available: json, typescript, sqlite]"));
+        assert!(help.contains("[aliases: javascript, ts, js, sql]"));
+    }
 
     /// Without CLI overrides, every serializer field comes from the config file.
     #[test]
